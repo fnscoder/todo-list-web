@@ -1,11 +1,30 @@
 import React from "react";
 import ListComponent from "./ListComponent";
 
-export default function UserLists() {
-	return (
-		<div>
-			<ListComponent listName={"My first list"}/>
-			<ListComponent listName={"My second list"}/>
-		</div>
-	)
+export default class UserLists extends React.Component {
+	state = { lists: null, loading: true }
+
+	async componentDidMount(){
+		const config = {
+			headers: {
+				"Content-Type": "application/json"
+			}
+		}
+		config.headers["Authorization"] = "Token 4115d4893467ac48cba3c0cc3a88cf743801ea3d"
+
+		var url = "http://127.0.0.1:8000/lists/";
+		const response = await fetch(url, config);
+		const data = await response.json();
+		console.log(data)
+		this.setState({lists: data, loading: false});
+	}
+
+	render() {
+		return (
+			<div>
+				<ListComponent listName={"My first list"}/>
+				<ListComponent listName={"My second list"}/>
+			</div>
+		)
+	}
 }
