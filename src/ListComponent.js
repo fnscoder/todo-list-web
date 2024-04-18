@@ -1,13 +1,15 @@
 import React from "react";
+import ItemComponent from "./ItemComponent";
 
 
 export default function ListComponent(){
   return (
     <div>
-      <h2>Minha lista</h2>
+      <h2>My list</h2>
       <ul>
-        <li>Item 1</li>
-        <li>Item 2</li>
+        <ItemComponent name="item 1"/>
+        <ItemComponent name="item 2"/>
+        <ItemComponent name="item 3"/>
       </ul>
     </div>
   );
