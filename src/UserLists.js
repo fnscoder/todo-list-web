@@ -15,7 +15,6 @@ export default class UserLists extends React.Component {
 		var url = "http://127.0.0.1:8000/lists/";
 		const response = await fetch(url, config);
 		const data = await response.json();
-		console.log(data)
 		this.setState({lists: data, loading: false});
 	}
 
