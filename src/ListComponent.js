@@ -3,13 +3,13 @@ import ItemComponent from "./ItemComponent";
 
 
 export default function ListComponent(props){
+  const items = props.items;
+
   return (
     <div>
       <h2>{ props.listName }</h2>
-      <ul>
-        <ItemComponent name="item 1"/>
-        <ItemComponent name="item 2"/>
-        <ItemComponent name="item 3"/>
+      <ul>       
+        {items.map(item => <ItemComponent key={item.id} name={item.name} status={item.done}/>)}
       </ul>
     </div>
   );
