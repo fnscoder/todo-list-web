@@ -5,12 +5,12 @@ export default class LoginComponent extends React.Component{
         super(props);
         this.state = {username: '', password: ''};
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
       }
 
-      handleChange(event) {
+      handleChangeUsername(event) {
         this.setState({username: event.target.value});
       }
 
@@ -34,7 +34,7 @@ export default class LoginComponent extends React.Component{
           <form onSubmit={this.handleSubmit}>
             <label>
               Name:
-              <input type="text" value={this.state.username} onChange={this.handleChange} />
+              <input type="text" value={this.state.username} onChange={this.handleChangeUsername} />
               <input type="password" value={this.state.password} onChange={this.handleChangePassword} />
             </label>
             <input type="submit" value="Submit" />
