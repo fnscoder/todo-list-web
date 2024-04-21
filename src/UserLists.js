@@ -1,29 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ListComponent from "./ListComponent";
 
-export default class UserLists extends React.Component {
-	state = { lists: [], loading: true }
+export default function UserLists() {
+  const [lists, setLists] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-	async componentDidMount(){
-		const config = {
-			headers: {
-				"Content-Type": "application/json"
-			}
-		}
-		config.headers["Authorization"] = "Token " + localStorage.getItem("token");
+  useEffect(() => {
+    async function fetchLists() {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Token " + localStorage.getItem("token")
+        }
+      };
 
-		var url = "http://127.0.0.1:8000/lists/";
-		const response = await fetch(url, config);
-		const data = await response.json();
-		this.setState({lists: data, loading: false});
-	}
+      try {
+        const url = "http://127.0.0.1:8000/lists/";
+        const response = await fetch(url, config);
+        const data = await response.json();
+        setLists(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching lists:', error);
+        setLoading(false);
+      }
+    }
 
-	render() {
-		const listAPI = this.state.lists;
-		return (
-				<div>				
-					{listAPI.map(list => <ListComponent key={list.id} listName={list.name} items={list.items}/>)}
-				</div>
-			)
-	}
+    fetchLists();
+  }, []);  // Empty dependency array means this effect runs once after the initial render
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      {lists.map(list => (
+        <ListComponent key={list.id} listName={list.name} items={list.items}/>
+      ))}
+    </div>
+  );
 }
