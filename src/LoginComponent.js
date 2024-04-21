@@ -4,7 +4,11 @@ import UserLists from './UserLists';
 export default class LoginComponent extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {username: '', password: ''};
+        this.state = {
+          username: '', 
+          password: '',
+          errorMessage: null,
+        };
 
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,11 +31,19 @@ export default class LoginComponent extends React.Component{
           body: JSON.stringify({ username: this.state.username, password: this.state.password })
         };
         fetch(url, requestOptions)
-          .then(response => response.json())
-          .then(data => {
-            localStorage.setItem("token", data.token);
-            this.setState({token: data.token});
-          });
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    localStorage.setItem("token", data.token);
+                    this.setState({token: data.token, errorMessage: null});
+                } else if (data.non_field_errors || data.detail) {
+                    this.setState({errorMessage: data.non_field_errors || data.detail});
+                }
+            })
+            .catch(error => {
+                this.setState({errorMessage: "Failed to connect to the API"});
+            });
+
         event.preventDefault();
       }
 
@@ -42,7 +54,7 @@ export default class LoginComponent extends React.Component{
 
       render() {
         var token = localStorage.getItem("token");
-        if (!token){
+        if (!token) {
           return (
             <form onSubmit={this.handleSubmit}>
               <label>
@@ -52,6 +64,7 @@ export default class LoginComponent extends React.Component{
                 <input type="password" value={this.state.password} onChange={this.handleChangePassword} />
               </label>
               <input type="submit" value="Login" />
+              {this.state.errorMessage && <div style={{color: 'red'}}>{this.state.errorMessage}</div>}
             </form>
           );
         };
