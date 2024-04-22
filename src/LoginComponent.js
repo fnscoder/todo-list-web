@@ -17,7 +17,8 @@ export default function LoginComponent() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const url = "http://127.0.0.1:8000/api-token-auth/";
+    const url = process.env.REACT_APP_API_URL + "api-token-auth/";
+    console.log(url);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },

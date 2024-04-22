@@ -8,12 +8,14 @@ The Backend project is available [here](https://github.com/fnscoder/todo-list-ap
 
 1. Clone the project
 2. Enter on the project folder
-3. Install the dependencies
-4. Run the project
+3. Create the .env file based on .env-sample file
+4. Install the dependencies
+5. Run the project
 
 ```bash
 git clone git@github.com:fnscoder/todo-list-web.git
 cd todo-list-web
+cp contrib/.env-sample .env
 npm install
 npm start
 ```

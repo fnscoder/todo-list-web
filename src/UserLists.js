@@ -15,7 +15,7 @@ export default function UserLists() {
       };
 
       try {
-        const url = "http://127.0.0.1:8000/lists/";
+        const url = process.env.REACT_APP_API_URL + "lists/";
         const response = await fetch(url, config);
         const data = await response.json();
         setLists(data);
